@@ -23,6 +23,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Laser.x = ship.x
     Laser.y = ship.y
     Laser.setVelocity(0, -59)
+    music.pewPew.play()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
@@ -80,7 +81,7 @@ controller.moveSprite(ship)
 ship.setStayInScreen(true)
 info.setLife(30)
 forever(function () {
-    pause(300)
+    pause(500)
     a = randint(0, 3)
     mySprite = sprites.create(asts[a], SpriteKind.asteroid)
     mySprite.setPosition(randint(0, 160), randint(0, 120))
