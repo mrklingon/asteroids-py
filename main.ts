@@ -1,6 +1,29 @@
 namespace SpriteKind {
     export const asteroid = SpriteKind.create()
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    Laser = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . 2 2 . . . . . . . 2 . . . 
+        . . . 2 . . . . . . . . 2 2 . . 
+        . . . 2 . . . . . . . . . 2 . . 
+        . . . 2 2 . . . . . . . 2 2 . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Projectile)
+    Laser.x = ship.x
+    Laser.y = ship.y
+    Laser.setVelocity(0, -59)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     otherSprite.destroy()
@@ -10,12 +33,18 @@ sprites.onOverlap(SpriteKind.asteroid, SpriteKind.asteroid, function (sprite, ot
     otherSprite.destroy()
     info.changeScoreBy(1)
 })
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.asteroid, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    info.changeScoreBy(1)
+})
 let mySprite: Sprite = null
 let a = 0
+let Laser: Sprite = null
+let ship: Sprite = null
 game.splash("Pilot the Falcon to avoid asteroids! ", "How long can you last???")
 effects.starField.startScreenEffect()
 let asts = [assets.image`as1`, assets.image`as2`, assets.image`as0`, assets.image`as3`]
-let ship = sprites.create(img`
+ship = sprites.create(img`
     ..............................
     .........1....1...............
     .........111..11.111..........
