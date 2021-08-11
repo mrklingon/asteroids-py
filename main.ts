@@ -35,6 +35,7 @@ let ship = sprites.create(img`
     ..............................
     `, SpriteKind.Player)
 controller.moveSprite(ship)
+ship.setStayInScreen(true)
 forever(function () {
     pause(500)
     a = randint(0, 3)
