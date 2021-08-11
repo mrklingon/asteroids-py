@@ -23,6 +23,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Laser.x = ship.x
     Laser.y = ship.y
     Laser.setVelocity(0, -59)
+    Laser.setFlag(SpriteFlag.DestroyOnWall, true)
     music.pewPew.play()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, otherSprite) {
