@@ -42,6 +42,7 @@ let mySprite: Sprite = null
 let a = 0
 let Laser: Sprite = null
 let ship: Sprite = null
+let ascnt = 0
 game.splash("Pilot the Falcon to avoid asteroids! ", "How long can you last???")
 effects.starField.startScreenEffect()
 let asts = [assets.image`as1`, assets.image`as2`, assets.image`as0`, assets.image`as3`]
@@ -79,11 +80,16 @@ ship = sprites.create(img`
     `, SpriteKind.Player)
 controller.moveSprite(ship)
 ship.setStayInScreen(true)
-info.setLife(30)
+info.setLife(10)
 forever(function () {
-    pause(500)
+    if (ascnt < 30) {
+        pause(500)
+    } else {
+        pause(1000)
+    }
     a = randint(0, 3)
     mySprite = sprites.create(asts[a], SpriteKind.asteroid)
     mySprite.setPosition(randint(0, 160), randint(0, 120))
     mySprite.setVelocity(randint(-60, 60), randint(-60, 60))
+    ascnt += 1
 })
