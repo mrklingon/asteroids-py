@@ -28,6 +28,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     otherSprite.destroy()
+    music.knock.play()
+    scene.cameraShake(4, 500)
 })
 sprites.onOverlap(SpriteKind.asteroid, SpriteKind.asteroid, function (sprite, otherSprite) {
     sprite.destroy()
@@ -89,6 +91,7 @@ forever(function () {
     }
     a = randint(0, 3)
     mySprite = sprites.create(asts[a], SpriteKind.asteroid)
+    mySprite.setFlag(SpriteFlag.DestroyOnWall, true)
     mySprite.setPosition(randint(0, 160), randint(0, 120))
     mySprite.setVelocity(randint(-60, 60), randint(-60, 60))
     ascnt += 1
