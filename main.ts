@@ -43,6 +43,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.asteroid, function (sprite, 
 })
 let mySprite: Sprite = null
 let a = 0
+let pause2 = 0
 let Laser: Sprite = null
 let ship: Sprite = null
 let ascnt = 0
@@ -85,10 +86,11 @@ controller.moveSprite(ship)
 ship.setStayInScreen(true)
 info.setLife(10)
 forever(function () {
-    if (ascnt < 30) {
-        pause(500)
+    pause2 = 1000 - ascnt
+    if (pause2 < 300) {
+        pause(300)
     } else {
-        pause(1000)
+        pause(pause2)
     }
     a = randint(0, 3)
     mySprite = sprites.create(asts[a], SpriteKind.asteroid)
