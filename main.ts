@@ -22,7 +22,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         `, SpriteKind.Projectile)
     Laser.x = ship.x
     Laser.y = ship.y
-    Laser.setVelocity(0, -59)
+    Laser.setVelocity(0, -100)
     Laser.setFlag(SpriteFlag.AutoDestroy, true)
     music.pewPew.play()
 })
@@ -49,7 +49,12 @@ let ship: Sprite = null
 let ascnt = 0
 game.splash("Pilot the Falcon to avoid asteroids! ", "How long can you last???")
 effects.starField.startScreenEffect()
-let asts = [assets.image`as1`, assets.image`as2`, assets.image`as0`, assets.image`as3`]
+let asts = [
+assets.image`as1`,
+assets.image`as2`,
+assets.image`as0`,
+assets.image`as3`
+]
 ship = sprites.create(img`
     ..............................
     .........1....1...............
