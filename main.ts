@@ -1,24 +1,46 @@
 namespace SpriteKind {
     export const asteroid = SpriteKind.create()
 }
+function mkStarDestroyer () {
+    Star_Destroyer = sprites.create(img`
+        ................................
+        .......ffff.....................
+        ......ffbf......................
+        ..fff.fbbf......................
+        ..fbbfffff....fff...............
+        ..fbbbbbbfffff...ff.............
+        ..fb1bbbbbbbbbffff..............
+        ..fbbbbbbbbbbbbbbbfffff.........
+        ..fbbbbb1bbb1bbbbbbbbbbffff.....
+        ..fbbbbbbbbbbbbbbbbbb1bbbbbfff..
+        ..fbbbbbbbbbbbbbfffffffffffff...
+        ..ffffffffffffff................
+        ................................
+        ................................
+        ................................
+        ................................
+        `, SpriteKind.Enemy)
+    Star_Destroyer.setPosition(0, randint(16, 40))
+    Star_Destroyer.setVelocity(randint(50, 90), 0)
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Laser = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . 2 . . . . . . . 2 . . . 
         . . . . 2 . . . . . . . 2 . . . 
-        . . . 2 2 . . . . . . . 2 . . . 
-        . . . 2 . . . . . . . . 2 2 . . 
-        . . . 2 . . . . . . . . . 2 . . 
-        . . . 2 2 . . . . . . . 2 2 . . 
         . . . . 2 . . . . . . . 2 . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
+        . . . . 2 . . . . . . . 2 . . . 
         `, SpriteKind.Projectile)
     Laser.x = ship.x
     Laser.y = ship.y
@@ -32,19 +54,55 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, othe
     music.knock.play()
     scene.cameraShake(4, 500)
 })
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.asteroid, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    info.changeScoreBy(1)
+})
 sprites.onOverlap(SpriteKind.asteroid, SpriteKind.asteroid, function (sprite, otherSprite) {
     sprite.destroy()
     otherSprite.destroy()
     info.changeScoreBy(1)
 })
+function mkStarDestroyer2 () {
+    Star_Destroyer = sprites.create(img`
+        ................................
+        .....................ffff.......
+        ......................fbff......
+        ......................fbbf.fff..
+        ...............fff....fffffbbf..
+        .............ff...fffffbbbbbbf..
+        ..............ffffbbbbbbbbb1bf..
+        .........fffffbbbbbbbbbbbbbbbf..
+        .....ffffbbbbbbbbbb1bbb1bbbbbf..
+        ..fffbbbbb1bbbbbbbbbbbbbbbbbbf..
+        ...fffffffffffffbbbbbbbbbbbbbf..
+        ................ffffffffffffff..
+        ................................
+        ................................
+        ................................
+        ................................
+        `, SpriteKind.Enemy)
+    Star_Destroyer.setPosition(160, randint(16, 40))
+    Star_Destroyer.setVelocity(randint(-90, -50), 0)
+}
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprite.destroy()
+    info.changeScoreBy(3)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.asteroid, function (sprite, otherSprite) {
     otherSprite.destroy()
     info.changeScoreBy(1)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    music.knock.play()
+    scene.cameraShake(4, 500)
 })
 let mySprite: Sprite = null
 let a = 0
 let pause2 = 0
 let Laser: Sprite = null
+let Star_Destroyer: Sprite = null
 let ship: Sprite = null
 let ascnt = 0
 game.splash("Pilot the Falcon to avoid asteroids! ", "How long can you last???")
@@ -90,6 +148,14 @@ ship = sprites.create(img`
 controller.moveSprite(ship)
 ship.setStayInScreen(true)
 info.setLife(10)
+game.onUpdateInterval(2000, function () {
+    if (7 < randint(0, 10)) {
+        mkStarDestroyer()
+    }
+    if (7 < randint(0, 10)) {
+        mkStarDestroyer2()
+    }
+})
 forever(function () {
     pause2 = 1000 - ascnt
     if (pause2 < 300) {
