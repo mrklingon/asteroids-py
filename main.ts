@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const asteroid = SpriteKind.create()
+    export const Text = SpriteKind.create()
 }
 function mkStarDestroyer () {
     Star_Destroyer = sprites.create(img`
@@ -23,7 +24,31 @@ function mkStarDestroyer () {
     Star_Destroyer.setPosition(0, randint(16, 40))
     Star_Destroyer.setVelocity(randint(50, 90), 0)
 }
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    droid += 1
+    if (droid > 1) {
+        droid = 0
+    }
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    doLaser()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    otherSprite.destroy()
+    music.knock.play()
+    scene.cameraShake(4, 500)
+})
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.asteroid, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    info.changeScoreBy(1)
+})
+sprites.onOverlap(SpriteKind.asteroid, SpriteKind.asteroid, function (sprite, otherSprite) {
+    sprite.destroy()
+    otherSprite.destroy()
+    info.changeScoreBy(1)
+})
+function doLaser () {
     Laser = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -47,22 +72,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Laser.setVelocity(0, -100)
     Laser.setFlag(SpriteFlag.AutoDestroy, true)
     music.pewPew.play()
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, otherSprite) {
-    info.changeLifeBy(-1)
-    otherSprite.destroy()
-    music.knock.play()
-    scene.cameraShake(4, 500)
-})
-sprites.onOverlap(SpriteKind.Enemy, SpriteKind.asteroid, function (sprite, otherSprite) {
-    otherSprite.destroy()
-    info.changeScoreBy(1)
-})
-sprites.onOverlap(SpriteKind.asteroid, SpriteKind.asteroid, function (sprite, otherSprite) {
-    sprite.destroy()
-    otherSprite.destroy()
-    info.changeScoreBy(1)
-})
+}
 function mkStarDestroyer2 () {
     Star_Destroyer = sprites.create(img`
         ................................
@@ -104,7 +114,9 @@ let pause2 = 0
 let Laser: Sprite = null
 let Star_Destroyer: Sprite = null
 let ship: Sprite = null
+let droid = 0
 let ascnt = 0
+droid = 0
 game.splash("Pilot the Falcon to avoid asteroids! ", "How long can you last???")
 effects.starField.startScreenEffect()
 let asts = [
@@ -169,4 +181,16 @@ forever(function () {
     mySprite.setPosition(randint(0, 160), randint(0, 120))
     mySprite.setVelocity(randint(-60, 60), randint(-60, 60))
     ascnt += 1
+})
+forever(function () {
+    if (1 == droid) {
+        doLaser()
+        pause(100 + randint(0, 500))
+        if (6 < randint(0, 10)) {
+            ship.x += randint(-20, 20)
+        }
+        if (6 > randint(0, 10)) {
+            ship.y += randint(-5, 5)
+        }
+    }
 })
