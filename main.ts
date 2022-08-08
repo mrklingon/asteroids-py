@@ -28,6 +28,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     droid += 1
     if (droid > 1) {
         droid = 0
+        ship.sayText("autopilot disengaged", 500, false)
+    } else {
+        ship.sayText("autopilot engaged", 500, false)
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
