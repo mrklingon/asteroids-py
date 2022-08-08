@@ -28,9 +28,10 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     droid += 1
     if (droid > 1) {
         droid = 0
-        ship.sayText("autopilot disengaged", 500, false)
+        ship.sayText("C3P0 has stopped piloting", 500, false)
     } else {
-        ship.sayText("autopilot engaged", 500, false)
+        ship.sayText("C3P0 now piloting", 500, false)
+        c3p0sez()
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -98,6 +99,9 @@ function mkStarDestroyer2 () {
     Star_Destroyer.setPosition(160, randint(16, 40))
     Star_Destroyer.setVelocity(randint(-90, -50), 0)
 }
+function c3p0sez () {
+    ship.sayText(c3po[randint(0, c3po.length - 1)], 500, false)
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprite.destroy()
     info.changeScoreBy(3)
@@ -113,12 +117,35 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 let mySprite: Sprite = null
 let a = 0
+let ascnt = 0
 let pause2 = 0
 let Laser: Sprite = null
 let Star_Destroyer: Sprite = null
 let ship: Sprite = null
 let droid = 0
-let ascnt = 0
+let c3po: string[] = []
+c3po = [
+"We're doomed!",
+"This is all your fault.",
+"This is madness!",
+"And I am C-3PO, human-cyborg relations.",
+"Sir, the possibility of successare approximately 3,720 to 1.",
+"In the event I don't make it back, I want you to know you've been a real friend, R2.",
+"Oh my goodness! Shut me down. Machines building machines. How   perverse.",
+"I'm programmed for etiquette, not destruction!",
+"He made a fair move. Screaming about it can't help you.",
+"That malfunctioning little twerp, this is all his fault.",
+"You watch your language!",
+"My joints are freezing up.",
+"Stop, please! I am not ready to die!",
+"It's against my programming to impersonate a deity.",
+"This isn't the afterlife, is it? Are droids allowed here?",
+"You didn't say my name, sir, but I'm all right.",
+"Will this agony ever end?",
+"Sir, I don't know where your ship learned to communicate",
+" your ship has   the most peculiar dialect.",
+"`Exciting' is hardly the word I would choose."
+]
 droid = 0
 game.splash("Pilot the Falcon to avoid asteroids! ", "How long can you last???")
 effects.starField.startScreenEffect()
@@ -194,6 +221,9 @@ forever(function () {
         }
         if (6 > randint(0, 10)) {
             ship.y += randint(-5, 5)
+        }
+        if (30 > randint(0, 100)) {
+            c3p0sez()
         }
     }
 })
