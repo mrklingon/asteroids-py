@@ -25,13 +25,15 @@ function mkStarDestroyer () {
     Star_Destroyer.setVelocity(randint(50, 90), 0)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    droid += 1
-    if (droid > 1) {
-        droid = 0
-        ship.sayText("C3P0 has stopped piloting", 500, false)
-    } else {
-        ship.sayText("C3P0 now piloting", 500, false)
-        c3p0sez()
+    if (onboard) {
+        droid += 1
+        if (droid > 1) {
+            droid = 0
+            ship.sayText("C3P0 has stopped piloting", 500, false)
+        } else {
+            ship.sayText("C3P0 now piloting", 500, false)
+            c3p0sez()
+        }
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -46,6 +48,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.asteroid, function (sprite, othe
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.asteroid, function (sprite, otherSprite) {
     otherSprite.destroy()
     info.changeScoreBy(1)
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (controller.down.isPressed()) {
+        onboard = true
+        ship.sayText("C3P0 on board!", 500, false)
+        c3p0sez()
+    }
 })
 sprites.onOverlap(SpriteKind.asteroid, SpriteKind.asteroid, function (sprite, otherSprite) {
     sprite.destroy()
@@ -124,6 +133,8 @@ let Star_Destroyer: Sprite = null
 let ship: Sprite = null
 let droid = 0
 let c3po: string[] = []
+let onboard = false
+onboard = false
 c3po = [
 "We're doomed!",
 "This is all your fault.",
