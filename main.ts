@@ -23,6 +23,7 @@ function mkStarDestroyer () {
         `, SpriteKind.Enemy)
     Star_Destroyer.setPosition(0, randint(16, 40))
     Star_Destroyer.setVelocity(randint(50, 90), 0)
+    Star_Destroyer.setFlag(SpriteFlag.AutoDestroy, true)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (onboard) {
@@ -107,6 +108,7 @@ function mkStarDestroyer2 () {
         `, SpriteKind.Enemy)
     Star_Destroyer.setPosition(160, randint(16, 40))
     Star_Destroyer.setVelocity(randint(-90, -50), 0)
+    Star_Destroyer.setFlag(SpriteFlag.AutoDestroy, true)
 }
 function c3p0sez () {
     ship.sayText(c3po[randint(0, c3po.length - 1)], 500, false)
