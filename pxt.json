@@ -1,5 +1,5 @@
 {
-    "name": "C3P0-pilot",
+    "name": "Falcon-Asteroids",
     "description": "",
     "dependencies": {
         "device": "*"
@@ -18,7 +18,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.8.30",
+        "target": "1.12.61",
         "targetId": "arcade"
     },
     "supportedTargets": [
